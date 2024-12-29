@@ -45,4 +45,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function systems()
+    {
+        return $this->belongsToMany(System::class)
+            ->withPivot('comment');
+    }
 }

@@ -2,10 +2,12 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
+use App\Nova\Pivots\SystemUserFields;
 use Laravel\Nova\Auth\PasswordValidationRules;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Markdown;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -63,6 +65,14 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules($this->passwordRules())
                 ->updateRules($this->optionalPasswordRules()),
+
+            BelongsToMany::make('Systems')
+                ->fields(new SystemUserFields),
+
+            // Workaround to get the pivot table field working
+//            Markdown::make('Comment')
+//                ->onlyOnIndex()
+//                ->hideFromIndex(),
         ];
     }
 
